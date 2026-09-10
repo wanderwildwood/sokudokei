@@ -53,5 +53,16 @@ The source is here in full. If you would rather not read it:
 aapt2 dump badging app-release.apk | grep uses-permission
 ```
 
-That prints every permission the built app actually carries, which is the claim above
-without having to trust me for it.
+That prints every permission the built app actually carries. It prints two lines:
+
+```
+uses-permission: name='android.permission.ACCESS_FINE_LOCATION'
+uses-permission: name='com.wanderwildwood.sokudokei.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+```
+
+The first is the one described above. The second is not mine: AndroidX defines it
+automatically for every app, it is signature-level and scoped to this package so only this
+app can hold it, and it exists so a runtime-registered broadcast receiver is not exported
+to other apps. It grants access to nothing.
+
+There is no `INTERNET` in that list, which is the claim above without having to trust me.
