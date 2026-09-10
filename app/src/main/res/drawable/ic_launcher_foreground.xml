@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- A dial and a needle: the face of any meter that ever told anyone how fast.
 
-     Drawn rather than ruled. The arc thins where a brush would lift and the needle is
-     not quite straight, because this is a mark and not an interface - the one place in
-     this app where an irregular line belongs. Everything else on screen is hard-edged.
+     Drawn to the five rules measured off the owner's own chanterelle in
+     kinokocho/tools/make-art.py, which is what every icon in this shop with any character
+     is built on: a thin line, one weight all through, few strokes, crooked rather than
+     symmetrical, and no solid black except droplets.
 
-     The launcher masks this to a shape of its choosing and only the central 66 of these
-     108 units are certain to survive, so the whole gauge sits inside that circle. -->
+     An earlier version of this mark was constructed instead of drawn - heavy strokes,
+     exact circles, perfect symmetry, filled shapes. It broke four of those five, and read
+     as a stock utility icon rather than as one of these.
+
+     Everything sits inside the central 66 units the launcher mask is certain to keep. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- the dial, open at the bottom the way a gauge is -->
+    <!-- the dial: one sweep, ends not quite level, apex a little left of centre -->
     <path
         android:strokeColor="#000000"
-        android:strokeWidth="6.5"
+        android:strokeWidth="2.0"
         android:strokeLineCap="round"
         android:fillColor="#00000000"
-        android:pathData="M29.6,67.4 A26,26 0 0 1 78.6,66.4" />
+        android:pathData="M30.6,71.2 C32.8,48.4 41.0,34.2 54.5,33.4 C68.1,32.7 76.4,46.8 78.2,68.8" />
 
-    <!-- the needle, resting a little past halfway as a needle at speed does -->
+    <!-- the needle: one line, bowed the way a hand bows a long stroke -->
     <path
-        android:fillColor="#000000"
-        android:pathData="M51.4,59.9 C52.6,58.6 55.4,56.9 56.7,56.1 C60.4,50.6 65.1,43.2 68.2,37.9 C64.6,43.6 58.9,51.4 55.2,56.6 C54.1,57.4 52.3,58.9 51.4,59.9 Z" />
+        android:strokeColor="#000000"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M53.4,60.4 C58.6,54.6 64.2,47.4 70.0,40.2" />
 
-    <!-- the pivot -->
-    <path
-        android:fillColor="#000000"
-        android:pathData="M54,52.6 C57.1,52.5 59.6,55 59.5,58.1 C59.4,61.1 56.9,63.5 53.9,63.4 C50.9,63.3 48.5,60.8 48.6,57.8 C48.7,54.9 51.1,52.6 54,52.6 Z" />
+    <!-- the pivot: a droplet, the one fill a page of thin lines can carry -->
+    <path android:fillColor="#000000"
+        android:pathData="M51.5,57.8 A2.5,2.4 0 1 0 51.6,57.8 Z" />
 </vector>
