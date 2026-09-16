@@ -46,7 +46,7 @@ fun BigSpeedScreen(state: MeterState, onClose: () -> Unit) {
                 fontSize = 160.sp,
                 fontWeight = FontWeight.Medium,
             )
-            TextMMD(text = state.speedUnit.label, fontSize = 28.sp)
+            TextMMD(text = state.speedUnit.label, style = MaterialTheme.typography.headlineLarge)
         }
     }
 }

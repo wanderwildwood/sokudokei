@@ -4,11 +4,11 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.wanderwildwood.sokudokei.BuildConfig
@@ -36,7 +36,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         TextMMD(
             text = "Speedometer ${BuildConfig.VERSION_NAME}",
-            fontSize = 20.sp,
+            style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium,
         )
 
@@ -44,29 +44,29 @@ fun AboutDialog(onDismiss: () -> Unit) {
         TextMMD(
             text = "Your position never leaves the phone, and the app cannot reach the " +
                 "network at all.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
             text = "Speed and altitude come from the GPS, air pressure from the phone's " +
                 "barometer. Nothing here is accurate enough to navigate by.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
             text = "After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit " +
                 "and atmosphere maths this carries.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(text = "GNU General Public License v3", fontSize = 14.sp)
-        TextMMD(text = "Icons from Material Symbols, Apache 2.0", fontSize = 14.sp)
+        TextMMD(text = "GNU General Public License v3", style = MaterialTheme.typography.labelSmall)
+        TextMMD(text = "Icons from Material Symbols, Apache 2.0", style = MaterialTheme.typography.labelSmall)
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(text = "github.com/wanderwildwood/sokudokei", fontSize = 14.sp)
+        TextMMD(text = "github.com/wanderwildwood/sokudokei", style = MaterialTheme.typography.labelSmall)
 
         Spacer(Modifier.height(14.dp))
         Llama()
@@ -75,7 +75,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = "Close", fontSize = 15.sp) }
+        ) { TextMMD(text = "Close", style = MaterialTheme.typography.bodySmall) }
     }
 }
 
@@ -118,6 +118,6 @@ private fun Llama() {
             modifier = Modifier.size(22.dp),
         )
         Spacer(Modifier.width(6.dp))
-        TextMMD(text = "Feed the llamas", fontSize = 14.sp)
+        TextMMD(text = "Feed the llamas", style = MaterialTheme.typography.labelSmall)
     }
 }

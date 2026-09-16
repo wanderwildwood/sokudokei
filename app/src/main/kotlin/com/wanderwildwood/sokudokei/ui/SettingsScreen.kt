@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -49,7 +48,7 @@ fun SettingsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Settings", fontSize = 24.sp) },
+                title = { TextMMD(text = "Settings") },
                 navigationIcon = { BarButton(Icons.Close, "Close", onClose) },
                 actions = { BarButton(Icons.Info, "About", { aboutOpen = true }) },
             )
@@ -116,8 +115,8 @@ private fun Setting(title: String, value: String, onClick: () -> Unit) {
             .clickable(onClick = onClick)
             .padding(vertical = 14.dp),
     ) {
-        TextMMD(text = title, fontSize = 18.sp)
-        TextMMD(text = value, fontSize = 14.sp)
+        TextMMD(text = title, style = MaterialTheme.typography.bodyMedium)
+        TextMMD(text = value, style = MaterialTheme.typography.labelSmall)
     }
 }
 
@@ -136,11 +135,11 @@ private fun ProviderDialog(
     onDismiss: () -> Unit,
 ) {
     EInkDialog(onDismiss = onDismiss) {
-        TextMMD(text = "Read position from", fontSize = 20.sp)
+        TextMMD(text = "Read position from", style = MaterialTheme.typography.bodyLarge)
         Spacer(Modifier.height(10.dp))
 
         if (providers.isEmpty()) {
-            TextMMD(text = "This phone offers none.", fontSize = 14.sp)
+            TextMMD(text = "This phone offers none.", style = MaterialTheme.typography.labelSmall)
         } else {
             providers.forEach { provider ->
                 Column(
@@ -151,7 +150,7 @@ private fun ProviderDialog(
                 ) {
                     TextMMD(
                         text = if (provider == chosen) "$provider  ·  in use" else provider,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.titleSmall,
                     )
                 }
             }
@@ -161,6 +160,6 @@ private fun ProviderDialog(
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = "Close", fontSize = 15.sp) }
+        ) { TextMMD(text = "Close", style = MaterialTheme.typography.bodySmall) }
     }
 }

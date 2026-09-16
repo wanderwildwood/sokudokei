@@ -50,7 +50,7 @@ fun MeterScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Speedometer", fontSize = 24.sp) },
+                title = { TextMMD(text = "Speedometer") },
                 actions = { BarButton(Icons.Settings, "Settings", onSettings) },
             )
         },
@@ -122,7 +122,7 @@ private fun Speed(state: MeterState, onFullScreen: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextMMD(text = reading, fontSize = 84.sp, fontWeight = FontWeight.Medium)
-        TextMMD(text = state.speedUnit.label, fontSize = 18.sp)
+        TextMMD(text = state.speedUnit.label, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -149,15 +149,15 @@ private fun Position(state: MeterState) {
     val fix = state.fix ?: return
 
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 14.dp)) {
-        TextMMD(text = "Position", fontSize = 18.sp)
+        TextMMD(text = "Position", style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(4.dp))
         TextMMD(
             text = degreesMinutesSeconds(fix.latitude, "N", "S"),
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.bodySmall,
         )
         TextMMD(
             text = degreesMinutesSeconds(fix.longitude, "E", "W"),
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(4.dp))
         TextMMD(
@@ -165,7 +165,7 @@ private fun Position(state: MeterState) {
             else "${fix.provider}, to about ${
                 state.altitudeUnit.from(fix.accuracyMetres.toDouble()).toInt()
             } ${state.altitudeUnit.label}",
-            fontSize = 13.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
     }
 }
@@ -217,16 +217,16 @@ private fun Reading(label: String, value: String, unit: String, note: String? = 
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
         ) {
-            TextMMD(text = label, fontSize = 18.sp)
+            TextMMD(text = label, style = MaterialTheme.typography.bodyMedium)
             Row(verticalAlignment = Alignment.Bottom) {
-                TextMMD(text = value, fontSize = 24.sp, fontWeight = FontWeight.Medium)
+                TextMMD(text = value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium)
                 Spacer(Modifier.size(6.dp))
-                TextMMD(text = unit, fontSize = 14.sp)
+                TextMMD(text = unit, style = MaterialTheme.typography.labelSmall)
             }
         }
         if (note != null) {
             Spacer(Modifier.height(2.dp))
-            TextMMD(text = note, fontSize = 13.sp)
+            TextMMD(text = note, style = MaterialTheme.typography.labelSmall)
         }
     }
 }
@@ -242,13 +242,13 @@ private fun Trouble(trouble: Trouble, onAllow: () -> Unit) {
     }
 
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
-        TextMMD(text = message, fontSize = 14.sp)
+        TextMMD(text = message, style = MaterialTheme.typography.labelSmall)
         if (trouble == Trouble.NO_PERMISSION) {
             Spacer(Modifier.height(10.dp))
             OutlinedButtonMMD(
                 onClick = onAllow,
                 modifier = Modifier.fillMaxWidth().height(48.dp),
-            ) { TextMMD(text = "Allow location", fontSize = 15.sp) }
+            ) { TextMMD(text = "Allow location", style = MaterialTheme.typography.bodySmall) }
         }
     }
 }
