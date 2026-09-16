@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.sokudokei.core.degreesMinutesSeconds
@@ -56,35 +55,53 @@ fun MeterScreen(
             )
         },
     ) { contentPadding ->
-        Column(
+        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, and it
+        // brings the chevron rail at both ends. A settings screen that coasts was the one
+        // screen in the app that did not behave like the phone it is on.
+        LazyColumnMMD(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp),
         ) {
-            Speed(state, onFullScreen)
-
-            if (state.trouble != Trouble.NONE) {
-                Trouble(state.trouble, onAllow)
+            item {
+                Speed(state, onFullScreen)
             }
+            item {
 
-            Spacer(Modifier.height(8.dp))
-            HorizontalDividerMMD()
+                if (state.trouble != Trouble.NONE) {
+                    Trouble(state.trouble, onAllow)
+                }
+            }
+            item {
 
-            Altitude(state)
-
-            if (state.fix != null) {
+                Spacer(Modifier.height(8.dp))
+            }
+            item {
                 HorizontalDividerMMD()
-                Position(state)
             }
+            item {
 
-            if (state.hasBarometer) {
-                HorizontalDividerMMD()
-                Air(state)
+                Altitude(state)
             }
+            item {
 
-            Spacer(Modifier.height(24.dp))
+                if (state.fix != null) {
+                    HorizontalDividerMMD()
+                    Position(state)
+                }
+            }
+            item {
+
+                if (state.hasBarometer) {
+                    HorizontalDividerMMD()
+                    Air(state)
+                }
+            }
+            item {
+
+                Spacer(Modifier.height(24.dp))
+            }
         }
     }
 }

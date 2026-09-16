@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -21,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.sokudokei.meter.MeterState
@@ -56,31 +55,41 @@ fun SettingsScreen(
             )
         },
     ) { contentPadding ->
-        Column(
+        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, and it
+        // brings the chevron rail at both ends. A settings screen that coasts was the one
+        // screen in the app that did not behave like the phone it is on.
+        LazyColumnMMD(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp),
         ) {
-            Spacer(Modifier.height(12.dp))
-
-            Setting("Speed", state.speedUnit.label, onSpeedUnit)
-            Setting("Altitude", state.altitudeUnit.label, onAltitudeUnit)
-
-            // No barometer, no rows about one. A permanent dash beside a setting that
-            // cannot do anything is worse than the setting not being there.
-            if (state.hasBarometer) {
-                Setting("Air pressure", state.pressureUnit.label, onPressureUnit)
+            item {
+                Spacer(Modifier.height(12.dp))
             }
-
-            Setting(
-                title = "Read position from",
-                value = state.provider.ifEmpty { "Not set" },
-                onClick = { providerOpen = true },
-            )
-
-            Spacer(Modifier.height(24.dp))
+            item {
+                Setting("Speed", state.speedUnit.label, onSpeedUnit)
+            }
+            item {
+                Setting("Altitude", state.altitudeUnit.label, onAltitudeUnit)
+            }
+            item {
+                // No barometer, no rows about one. A permanent dash beside a setting that
+                // cannot do anything is worse than the setting not being there.
+                if (state.hasBarometer) {
+                    Setting("Air pressure", state.pressureUnit.label, onPressureUnit)
+                }
+            }
+            item {
+                Setting(
+                    title = "Read position from",
+                    value = state.provider.ifEmpty { "Not set" },
+                    onClick = { providerOpen = true },
+                )
+            }
+            item {
+                Spacer(Modifier.height(24.dp))
+            }
         }
     }
 

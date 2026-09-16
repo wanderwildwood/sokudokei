@@ -23,6 +23,7 @@ import com.wanderwildwood.sokudokei.meter.MeterViewModel
 import com.wanderwildwood.sokudokei.ui.BigSpeedScreen
 import com.wanderwildwood.sokudokei.ui.MeterScreen
 import com.wanderwildwood.sokudokei.ui.SettingsScreen
+import com.wanderwildwood.sokudokei.ui.monochrome
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD {
+            ThemeMMD(colorScheme = monochrome) {
                 Speedometer()
             }
         }
