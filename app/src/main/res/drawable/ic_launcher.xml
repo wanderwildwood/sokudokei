@@ -22,7 +22,7 @@
     <!-- the dial: one sweep, ends not quite level, apex a little left of centre -->
     <path
         android:strokeColor="#000000"
-        android:strokeWidth="2.0"
+        android:strokeWidth="3.0"
         android:strokeLineCap="round"
         android:fillColor="#00000000"
         android:pathData="M30.6,71.2 C32.8,48.4 41.0,34.2 54.5,33.4 C68.1,32.7 76.4,46.8 78.2,68.8" />
@@ -30,12 +30,12 @@
     <!-- the needle: one line, bowed the way a hand bows a long stroke -->
     <path
         android:strokeColor="#000000"
-        android:strokeWidth="2.0"
+        android:strokeWidth="3.0"
         android:strokeLineCap="round"
         android:fillColor="#00000000"
         android:pathData="M53.4,60.4 C58.6,54.6 64.2,47.4 70.0,40.2" />
 
     <!-- the pivot: a droplet, the one fill a page of thin lines can carry -->
     <path android:fillColor="#000000"
-        android:pathData="M51.5,57.8 A2.5,2.4 0 1 0 51.6,57.8 Z" />
+        android:pathData="M51.5,57.8 A3.1,3.0 0 1 0 51.6,57.8 Z" />
 </vector>
