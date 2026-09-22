@@ -80,8 +80,8 @@
 
     <!-- Provider picker. The provider names themselves come from the phone and are not translated -->
     <string name="provider_none">This phone offers none.</string>
-    <!-- Marks the provider already chosen. %1$s is its name; keep the two spaces either side of the dot -->
-    <string name="provider_in_use">%1$s  ·  in use</string>
+    <!-- Marks the provider already chosen. %1$s is its name; keep the two spaces either side of the dot, and the quotes that keep them -->
+    <string name="provider_in_use">"%1$s  ·  in use"</string>
     <!-- Button (verb) -->
     <string name="provider_close">Close</string>
 
