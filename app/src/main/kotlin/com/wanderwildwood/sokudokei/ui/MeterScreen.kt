@@ -1,5 +1,6 @@
 package com.wanderwildwood.sokudokei.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -124,7 +125,7 @@ private fun Speed(state: MeterState, onFullScreen: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextMMD(text = reading, fontSize = 84.sp, fontWeight = FontWeight.Medium)
-        TextMMD(text = state.speedUnit.label, style = MaterialTheme.typography.bodyMedium)
+        TextMMD(text = stringResource(state.speedUnit.labelRes), style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -137,7 +138,7 @@ private fun Altitude(state: MeterState) {
         label = stringResource(R.string.meter_altitude),
         value = if (fix == null || !fix.hasAltitude) "–"
         else unit.from(fix.altitudeMetres).toInt().toString(),
-        unit = unit.label,
+        unit = stringResource(unit.labelRes),
         // The GPS gives height above the WGS84 ellipsoid, and on this phone Android
         // cannot convert it: the conversion arrived in API 34 and the Kompakt is 31.
         // Saying which datum it is costs one line and stops the number being read as a
@@ -154,11 +155,11 @@ private fun Position(state: MeterState) {
         TextMMD(text = stringResource(R.string.meter_position), style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(4.dp))
         TextMMD(
-            text = degreesMinutesSeconds(fix.latitude, stringResource(R.string.meter_position_north), stringResource(R.string.meter_position_south)),
+            text = coordinate(fix.latitude, R.string.meter_position_north, R.string.meter_position_south),
             style = MaterialTheme.typography.bodySmall,
         )
         TextMMD(
-            text = degreesMinutesSeconds(fix.longitude, stringResource(R.string.meter_position_east), stringResource(R.string.meter_position_west)),
+            text = coordinate(fix.longitude, R.string.meter_position_east, R.string.meter_position_west),
             style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(4.dp))
@@ -168,11 +169,24 @@ private fun Position(state: MeterState) {
                 R.string.meter_position_accuracy,
                 fix.provider,
                 state.altitudeUnit.from(fix.accuracyMetres.toDouble()).toInt(),
-                state.altitudeUnit.label,
+                stringResource(state.altitudeUnit.labelRes),
             ),
             style = MaterialTheme.typography.labelSmall,
         )
     }
+}
+
+/** One coordinate in words: the side of zero it lies on, then degrees, minutes and seconds. */
+@Composable
+private fun coordinate(degrees: Double, @StringRes positive: Int, @StringRes negative: Int): String {
+    val dms = degreesMinutesSeconds(degrees)
+    return stringResource(
+        R.string.meter_position_dms,
+        stringResource(if (dms.negative) negative else positive),
+        dms.degrees.toString(),
+        dms.minutes.toString(),
+        dms.secondsText,
+    )
 }
 
 @Composable
@@ -184,7 +198,7 @@ private fun Air(state: MeterState) {
         label = stringResource(R.string.meter_air_pressure),
         value = if (hPa.isNaN()) "–"
         else String.format("%.${unit.decimals}f", unit.from(hPa)),
-        unit = unit.label,
+        unit = stringResource(unit.labelRes),
     )
 
     HorizontalDividerMMD()
@@ -194,7 +208,7 @@ private fun Air(state: MeterState) {
         label = stringResource(R.string.meter_sea_level),
         value = if (seaLevel.isNaN()) "–"
         else String.format("%.${unit.decimals}f", unit.from(seaLevel)),
-        unit = unit.label,
+        unit = stringResource(unit.labelRes),
         note = if (seaLevel.isNaN()) stringResource(R.string.meter_sea_level_note) else null,
     )
 
@@ -205,7 +219,7 @@ private fun Air(state: MeterState) {
         label = stringResource(R.string.meter_pressure_altitude),
         value = if (pressureAltitude.isNaN()) "–"
         else state.altitudeUnit.from(pressureAltitude).toInt().toString(),
-        unit = state.altitudeUnit.label,
+        unit = stringResource(state.altitudeUnit.labelRes),
         // Worth saying plainly: this is a standard-atmosphere height, so on a low
         // pressure day it disagrees with the GPS by a hundred metres and neither of
         // them is broken.

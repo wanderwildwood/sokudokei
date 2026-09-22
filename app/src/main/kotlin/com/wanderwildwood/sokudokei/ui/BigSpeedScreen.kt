@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.text.TextMMD
@@ -46,7 +47,7 @@ fun BigSpeedScreen(state: MeterState, onClose: () -> Unit) {
                 fontSize = 160.sp,
                 fontWeight = FontWeight.Medium,
             )
-            TextMMD(text = state.speedUnit.label, style = MaterialTheme.typography.headlineLarge)
+            TextMMD(text = stringResource(state.speedUnit.labelRes), style = MaterialTheme.typography.headlineLarge)
         }
     }
 }

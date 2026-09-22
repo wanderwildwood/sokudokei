@@ -69,16 +69,16 @@ fun SettingsScreen(
                 Spacer(Modifier.height(12.dp))
             }
             item {
-                Setting(stringResource(R.string.settings_speed), state.speedUnit.label, onSpeedUnit)
+                Setting(stringResource(R.string.settings_speed), stringResource(state.speedUnit.labelRes), onSpeedUnit)
             }
             item {
-                Setting(stringResource(R.string.settings_altitude), state.altitudeUnit.label, onAltitudeUnit)
+                Setting(stringResource(R.string.settings_altitude), stringResource(state.altitudeUnit.labelRes), onAltitudeUnit)
             }
             item {
                 // No barometer, no rows about one. A permanent dash beside a setting that
                 // cannot do anything is worse than the setting not being there.
                 if (state.hasBarometer) {
-                    Setting(stringResource(R.string.settings_air_pressure), state.pressureUnit.label, onPressureUnit)
+                    Setting(stringResource(R.string.settings_air_pressure), stringResource(state.pressureUnit.labelRes), onPressureUnit)
                 }
             }
             item {

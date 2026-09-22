@@ -29,6 +29,8 @@
     <string name="meter_position_south">S</string>
     <string name="meter_position_east">E</string>
     <string name="meter_position_west">W</string>
+    <!-- One coordinate. %1$s is the compass letter above, %2$s whole degrees, %3$s minutes, %4$s seconds to one decimal (already written with its point). Keep the degree, minute and second marks unless your language writes them differently -->
+    <string name="meter_position_dms">%1$s %2$s° %3$s′ %4$s″</string>
     <!-- Under the coordinates. %1$s is the location provider's own name (gps, network, fused), %2$d the accuracy, %3$s its unit (m or ft) -->
     <string name="meter_position_accuracy">%1$s, to about %2$d %3$s</string>
 
@@ -39,6 +41,26 @@
     <string name="meter_trouble_provider_off">The chosen provider is switched off.</string>
     <!-- Button under the permission message -->
     <string name="meter_allow_location">Allow location</string>
+
+    <!-- ============================================================ -->
+    <!-- Units, shown beside a reading and as the value of its setting row. Abbreviations, as printed on a dial -->
+
+    <!-- Speed: kilometres per hour -->
+    <string name="unit_kmh">km/h</string>
+    <!-- Speed: miles per hour -->
+    <string name="unit_mph">mph</string>
+    <!-- Speed: nautical miles per hour. Written out in English, lower case -->
+    <string name="unit_knots">knots</string>
+    <!-- Speed: metres per second -->
+    <string name="unit_ms">m/s</string>
+    <!-- Altitude and accuracy: metres -->
+    <string name="unit_metres">m</string>
+    <!-- Altitude and accuracy: feet -->
+    <string name="unit_feet">ft</string>
+    <!-- Air pressure: hectopascals -->
+    <string name="unit_hpa">hPa</string>
+    <!-- Air pressure: inches of mercury -->
+    <string name="unit_inhg">inHg</string>
 
     <!-- ============================================================ -->
     <!-- Settings screen -->

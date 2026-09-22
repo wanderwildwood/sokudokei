@@ -1,6 +1,7 @@
 package com.wanderwildwood.sokudokei.core
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -84,25 +85,25 @@ class CoordinateTest {
 
     @Test
     fun `a positive longitude reads east`() {
-        assertTrue(degreesMinutesSeconds(1.5, "E", "W").startsWith("E"))
+        assertFalse(degreesMinutesSeconds(1.5).negative)
     }
 
     @Test
     fun `a negative longitude reads west and drops the minus`() {
-        val text = degreesMinutesSeconds(-1.5, "E", "W")
-        assertTrue(text.startsWith("W"))
-        assertTrue("a sign would be saying west twice", !text.contains("-"))
+        val dms = degreesMinutesSeconds(-1.5)
+        assertTrue(dms.negative)
+        assertEquals("a sign would be saying west twice", Dms(true, 1, 30, 0, 0), dms)
     }
 
     @Test
     fun `half a degree is thirty minutes`() {
-        assertEquals("N 51° 30′ 0.0″", degreesMinutesSeconds(51.5, "N", "S"))
+        assertEquals(Dms(false, 51, 30, 0, 0), degreesMinutesSeconds(51.5))
     }
 
     @Test
     fun `seconds carry from the fraction`() {
         // 0.25 of a minute is 15 seconds.
-        assertEquals("N 10° 0′ 15.0″", degreesMinutesSeconds(10.0 + 15.0 / 3600.0, "N", "S"))
+        assertEquals(Dms(false, 10, 0, 15, 0), degreesMinutesSeconds(10.0 + 15.0 / 3600.0))
     }
 }
 
@@ -116,28 +117,34 @@ class CoordinateRoundingTest {
 
     @Test
     fun `a whole degree is not one tenth short of itself`() {
-        assertEquals("N 51° 0′ 0.0″", degreesMinutesSeconds(51.0, "N", "S"))
+        assertEquals(Dms(false, 51, 0, 0, 0), degreesMinutesSeconds(51.0))
     }
 
     @Test
     fun `a value that used to arrive as 14 point 9 seconds`() {
-        assertEquals("N 10° 0′ 15.0″", degreesMinutesSeconds(10.0 + 15.0 / 3600.0, "N", "S"))
+        assertEquals(Dms(false, 10, 0, 15, 0), degreesMinutesSeconds(10.0 + 15.0 / 3600.0))
     }
 
     @Test
     fun `tenths carry into seconds`() {
         // 59.98 seconds rounds to 60.0, which must become the next minute, not "59.10".
-        assertEquals("N 0° 1′ 0.0″", degreesMinutesSeconds(59.98 / 3600.0, "N", "S"))
+        assertEquals(Dms(false, 0, 1, 0, 0), degreesMinutesSeconds(59.98 / 3600.0))
     }
 
     @Test
     fun `seconds carry into minutes and minutes into degrees`() {
         // One hundredth of a second short of a whole degree rounds up through every unit.
-        assertEquals("N 1° 0′ 0.0″", degreesMinutesSeconds(1.0 - 0.01 / 3600.0, "N", "S"))
+        assertEquals(Dms(false, 1, 0, 0, 0), degreesMinutesSeconds(1.0 - 0.01 / 3600.0))
+    }
+
+    @Test
+    fun `seconds are written to one decimal with a point`() {
+        assertEquals("15.0", degreesMinutesSeconds(10.0 + 15.0 / 3600.0).secondsText)
+        assertEquals("7.5", degreesMinutesSeconds(7.5 / 3600.0).secondsText)
     }
 
     @Test
     fun `zero is zero and reads positive`() {
-        assertEquals("E 0° 0′ 0.0″", degreesMinutesSeconds(0.0, "E", "W"))
+        assertEquals(Dms(false, 0, 0, 0, 0), degreesMinutesSeconds(0.0))
     }
 }

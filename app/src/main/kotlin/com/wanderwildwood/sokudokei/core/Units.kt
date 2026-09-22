@@ -1,5 +1,8 @@
 package com.wanderwildwood.sokudokei.core
 
+import androidx.annotation.StringRes
+import com.wanderwildwood.sokudokei.R
+
 /**
  * The units a reading can be said in, and the factors that get it there.
  *
@@ -10,11 +13,11 @@ package com.wanderwildwood.sokudokei.core
  */
 
 /** How fast. */
-enum class Speed(val label: String) {
-    KMH("km/h"),
-    MPH("mph"),
-    KNOTS("knots"),
-    MS("m/s"),
+enum class Speed(@StringRes val labelRes: Int) {
+    KMH(R.string.unit_kmh),
+    MPH(R.string.unit_mph),
+    KNOTS(R.string.unit_knots),
+    MS(R.string.unit_ms),
     ;
 
     /**
@@ -35,9 +38,9 @@ enum class Speed(val label: String) {
 }
 
 /** How high. */
-enum class Altitude(val label: String) {
-    METRES("m"),
-    FEET("ft"),
+enum class Altitude(@StringRes val labelRes: Int) {
+    METRES(R.string.unit_metres),
+    FEET(R.string.unit_feet),
     ;
 
     /** A foot is exactly 0.3048 m, again by the 1959 agreement. */
@@ -50,9 +53,9 @@ enum class Altitude(val label: String) {
 }
 
 /** How heavy the air. */
-enum class Pressure(val label: String) {
-    HPA("hPa"),
-    INHG("inHg"),
+enum class Pressure(@StringRes val labelRes: Int) {
+    HPA(R.string.unit_hpa),
+    INHG(R.string.unit_inhg),
     ;
 
     /**
@@ -76,13 +79,28 @@ enum class Pressure(val label: String) {
 }
 
 /**
+ * A latitude or longitude split into degrees, minutes and seconds to the tenth, with the
+ * sign taken out as a side: north or east when [negative] is false, south or west when true.
+ * The screen puts the words and the marks around it.
+ */
+data class Dms(
+    val negative: Boolean,
+    val degrees: Long,
+    val minutes: Long,
+    val seconds: Long,
+    val tenths: Long,
+) {
+    /** Seconds to one decimal place, with the point written as it always has been. */
+    val secondsText: String get() = "$seconds.$tenths"
+}
+
+/**
  * A latitude or longitude, as degrees, minutes and seconds.
  *
  * Decimal degrees would be shorter, but a coordinate is read off this screen to be said
  * out loud or written on paper, and nobody reads 51.4778 aloud.
  */
-fun degreesMinutesSeconds(degrees: Double, positive: String, negative: String): String {
-    val axis = if (degrees < 0) negative else positive
+fun degreesMinutesSeconds(degrees: Double): Dms {
     val magnitude = if (degrees < 0) -degrees else degrees
 
     // Reduced to whole tenths of a second first, then split up.
@@ -101,5 +119,5 @@ fun degreesMinutesSeconds(degrees: Double, positive: String, negative: String): 
     val minutes = total % 60
     val whole = total / 60
 
-    return "$axis $whole° $minutes′ $seconds.$tenths″"
+    return Dms(negative = degrees < 0, degrees = whole, minutes = minutes, seconds = seconds, tenths = tenths)
 }
