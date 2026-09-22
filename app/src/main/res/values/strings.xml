@@ -1,4 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Speedometer</string>
+
+    <!-- ============================================================ -->
+    <!-- Main screen: the speed and the readings below it -->
+
+    <!-- Top bar title -->
+    <string name="meter_title">Speedometer</string>
+    <!-- Cog button in the top bar, read aloud by a screen reader -->
+    <string name="meter_cd_settings">Settings</string>
+
+    <!-- Reading rows: a label on the left, a number and its unit on the right, and sometimes a note underneath -->
+    <string name="meter_altitude">Altitude</string>
+    <!-- Note under the altitude: the GPS height is not a height above the sea -->
+    <string name="meter_altitude_note">Above the WGS84 ellipsoid, not sea level.</string>
+    <string name="meter_air_pressure">Air pressure</string>
+    <!-- The air pressure corrected to sea level, as a weather report gives it -->
+    <string name="meter_sea_level">At sea level</string>
+    <string name="meter_sea_level_note">Needs an altitude from the GPS.</string>
+    <!-- The height the air pressure implies in a standard atmosphere (aviation term) -->
+    <string name="meter_pressure_altitude">Pressure altitude</string>
+    <string name="meter_pressure_altitude_note">What the height would be on a standard day.</string>
+
+    <!-- Position block: a heading, then latitude and longitude in degrees, minutes and seconds -->
+    <string name="meter_position">Position</string>
+    <!-- Single-letter compass points written before a latitude (N/S) or longitude (E/W) -->
+    <string name="meter_position_north">N</string>
+    <string name="meter_position_south">S</string>
+    <string name="meter_position_east">E</string>
+    <string name="meter_position_west">W</string>
+    <!-- Under the coordinates. %1$s is the location provider's own name (gps, network, fused), %2$d the accuracy, %3$s its unit (m or ft) -->
+    <string name="meter_position_accuracy">%1$s, to about %2$d %3$s</string>
+
+    <!-- Why there is no reading, shown under the speed -->
+    <string name="meter_trouble_no_permission">This needs the location permission to read a speed.</string>
+    <string name="meter_trouble_location_off">Location is switched off for the whole phone.</string>
+    <string name="meter_trouble_no_provider">No location provider chosen yet. Pick one in settings.</string>
+    <string name="meter_trouble_provider_off">The chosen provider is switched off.</string>
+    <!-- Button under the permission message -->
+    <string name="meter_allow_location">Allow location</string>
+
+    <!-- ============================================================ -->
+    <!-- Settings screen -->
+
+    <string name="settings_title">Settings</string>
+    <!-- Top bar buttons, read aloud by a screen reader -->
+    <string name="settings_cd_close">Close</string>
+    <string name="settings_cd_about">About</string>
+    <!-- Setting rows: which unit each reading is shown in -->
+    <string name="settings_speed">Speed</string>
+    <string name="settings_altitude">Altitude</string>
+    <string name="settings_air_pressure">Air pressure</string>
+    <!-- Setting row and the title of its picker: which location provider to use -->
+    <string name="settings_read_position_from">Read position from</string>
+    <!-- Value of that row when no provider has been chosen -->
+    <string name="settings_not_set">Not set</string>
+
+    <!-- Provider picker. The provider names themselves come from the phone and are not translated -->
+    <string name="provider_none">This phone offers none.</string>
+    <!-- Marks the provider already chosen. %1$s is its name; keep the two spaces either side of the dot -->
+    <string name="provider_in_use">%1$s  ·  in use</string>
+    <!-- Button (verb) -->
+    <string name="provider_close">Close</string>
+
+    <!-- ============================================================ -->
+    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
+
+    <!-- Heading. %1$s is the version number, e.g. 0.1.0 -->
+    <string name="about_title">Speedometer %1$s</string>
+    <string name="about_privacy">Your position never leaves the phone, and the app cannot reach the network at all.</string>
+    <string name="about_sources">Speed and altitude come from the GPS, air pressure from the phone\'s barometer. Nothing here is accurate enough to navigate by.</string>
+    <string name="about_after">After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit and atmosphere maths this carries.</string>
+    <!-- The name of the app's licence -->
+    <string name="about_licence">GNU General Public License v3</string>
+    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
+    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
+    <string name="about_feed_the_llamas">Feed the llamas</string>
+    <!-- Toast when the donation link cannot be opened -->
+    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
+    <!-- Button that closes the About dialog -->
+    <string name="about_close">Close</string>
 </resources>

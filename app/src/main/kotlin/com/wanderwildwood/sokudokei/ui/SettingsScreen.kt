@@ -16,11 +16,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
+import com.wanderwildwood.sokudokei.R
 import com.wanderwildwood.sokudokei.meter.MeterState
 
 /**
@@ -48,9 +50,9 @@ fun SettingsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Settings") },
-                navigationIcon = { BarButton(Icons.Close, "Close", onClose) },
-                actions = { BarButton(Icons.Info, "About", { aboutOpen = true }) },
+                title = { TextMMD(text = stringResource(R.string.settings_title)) },
+                navigationIcon = { BarButton(Icons.Close, stringResource(R.string.settings_cd_close), onClose) },
+                actions = { BarButton(Icons.Info, stringResource(R.string.settings_cd_about), { aboutOpen = true }) },
             )
         },
     ) { contentPadding ->
@@ -67,22 +69,23 @@ fun SettingsScreen(
                 Spacer(Modifier.height(12.dp))
             }
             item {
-                Setting("Speed", state.speedUnit.label, onSpeedUnit)
+                Setting(stringResource(R.string.settings_speed), state.speedUnit.label, onSpeedUnit)
             }
             item {
-                Setting("Altitude", state.altitudeUnit.label, onAltitudeUnit)
+                Setting(stringResource(R.string.settings_altitude), state.altitudeUnit.label, onAltitudeUnit)
             }
             item {
                 // No barometer, no rows about one. A permanent dash beside a setting that
                 // cannot do anything is worse than the setting not being there.
                 if (state.hasBarometer) {
-                    Setting("Air pressure", state.pressureUnit.label, onPressureUnit)
+                    Setting(stringResource(R.string.settings_air_pressure), state.pressureUnit.label, onPressureUnit)
                 }
             }
             item {
+                val notSet = stringResource(R.string.settings_not_set)
                 Setting(
-                    title = "Read position from",
-                    value = state.provider.ifEmpty { "Not set" },
+                    title = stringResource(R.string.settings_read_position_from),
+                    value = state.provider.ifEmpty { notSet },
                     onClick = { providerOpen = true },
                 )
             }
@@ -135,11 +138,11 @@ private fun ProviderDialog(
     onDismiss: () -> Unit,
 ) {
     EInkDialog(onDismiss = onDismiss) {
-        TextMMD(text = "Read position from", style = MaterialTheme.typography.bodyLarge)
+        TextMMD(text = stringResource(R.string.settings_read_position_from), style = MaterialTheme.typography.bodyLarge)
         Spacer(Modifier.height(10.dp))
 
         if (providers.isEmpty()) {
-            TextMMD(text = "This phone offers none.", style = MaterialTheme.typography.labelSmall)
+            TextMMD(text = stringResource(R.string.provider_none), style = MaterialTheme.typography.labelSmall)
         } else {
             providers.forEach { provider ->
                 Column(
@@ -149,7 +152,7 @@ private fun ProviderDialog(
                         .padding(vertical = 12.dp),
                 ) {
                     TextMMD(
-                        text = if (provider == chosen) "$provider  ·  in use" else provider,
+                        text = if (provider == chosen) stringResource(R.string.provider_in_use, provider) else provider,
                         style = MaterialTheme.typography.titleSmall,
                     )
                 }
@@ -160,6 +163,6 @@ private fun ProviderDialog(
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = "Close", style = MaterialTheme.typography.bodySmall) }
+        ) { TextMMD(text = stringResource(R.string.provider_close), style = MaterialTheme.typography.bodySmall) }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +27,7 @@ import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
+import com.wanderwildwood.sokudokei.R
 import com.wanderwildwood.sokudokei.core.degreesMinutesSeconds
 import com.wanderwildwood.sokudokei.meter.MeterState
 import com.wanderwildwood.sokudokei.meter.Trouble
@@ -50,8 +52,8 @@ fun MeterScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Speedometer") },
-                actions = { BarButton(Icons.Settings, "Settings", onSettings) },
+                title = { TextMMD(text = stringResource(R.string.meter_title)) },
+                actions = { BarButton(Icons.Settings, stringResource(R.string.meter_cd_settings), onSettings) },
             )
         },
     ) { contentPadding ->
@@ -132,7 +134,7 @@ private fun Altitude(state: MeterState) {
     val unit = state.altitudeUnit
 
     Reading(
-        label = "Altitude",
+        label = stringResource(R.string.meter_altitude),
         value = if (fix == null || !fix.hasAltitude) "–"
         else unit.from(fix.altitudeMetres).toInt().toString(),
         unit = unit.label,
@@ -140,7 +142,7 @@ private fun Altitude(state: MeterState) {
         // cannot convert it: the conversion arrived in API 34 and the Kompakt is 31.
         // Saying which datum it is costs one line and stops the number being read as a
         // height above the sea, which in most places it is not, by tens of metres.
-        note = "Above the WGS84 ellipsoid, not sea level.",
+        note = stringResource(R.string.meter_altitude_note),
     )
 }
 
@@ -149,22 +151,25 @@ private fun Position(state: MeterState) {
     val fix = state.fix ?: return
 
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 14.dp)) {
-        TextMMD(text = "Position", style = MaterialTheme.typography.bodyMedium)
+        TextMMD(text = stringResource(R.string.meter_position), style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(4.dp))
         TextMMD(
-            text = degreesMinutesSeconds(fix.latitude, "N", "S"),
+            text = degreesMinutesSeconds(fix.latitude, stringResource(R.string.meter_position_north), stringResource(R.string.meter_position_south)),
             style = MaterialTheme.typography.bodySmall,
         )
         TextMMD(
-            text = degreesMinutesSeconds(fix.longitude, "E", "W"),
+            text = degreesMinutesSeconds(fix.longitude, stringResource(R.string.meter_position_east), stringResource(R.string.meter_position_west)),
             style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(4.dp))
         TextMMD(
             text = if (fix.accuracyMetres.isNaN()) fix.provider
-            else "${fix.provider}, to about ${
-                state.altitudeUnit.from(fix.accuracyMetres.toDouble()).toInt()
-            } ${state.altitudeUnit.label}",
+            else stringResource(
+                R.string.meter_position_accuracy,
+                fix.provider,
+                state.altitudeUnit.from(fix.accuracyMetres.toDouble()).toInt(),
+                state.altitudeUnit.label,
+            ),
             style = MaterialTheme.typography.labelSmall,
         )
     }
@@ -176,7 +181,7 @@ private fun Air(state: MeterState) {
     val hPa = state.hectopascals
 
     Reading(
-        label = "Air pressure",
+        label = stringResource(R.string.meter_air_pressure),
         value = if (hPa.isNaN()) "–"
         else String.format("%.${unit.decimals}f", unit.from(hPa)),
         unit = unit.label,
@@ -186,25 +191,25 @@ private fun Air(state: MeterState) {
 
     val seaLevel = state.seaLevelHectopascals
     Reading(
-        label = "At sea level",
+        label = stringResource(R.string.meter_sea_level),
         value = if (seaLevel.isNaN()) "–"
         else String.format("%.${unit.decimals}f", unit.from(seaLevel)),
         unit = unit.label,
-        note = if (seaLevel.isNaN()) "Needs an altitude from the GPS." else null,
+        note = if (seaLevel.isNaN()) stringResource(R.string.meter_sea_level_note) else null,
     )
 
     HorizontalDividerMMD()
 
     val pressureAltitude = state.pressureAltitudeMetres
     Reading(
-        label = "Pressure altitude",
+        label = stringResource(R.string.meter_pressure_altitude),
         value = if (pressureAltitude.isNaN()) "–"
         else state.altitudeUnit.from(pressureAltitude).toInt().toString(),
         unit = state.altitudeUnit.label,
         // Worth saying plainly: this is a standard-atmosphere height, so on a low
         // pressure day it disagrees with the GPS by a hundred metres and neither of
         // them is broken.
-        note = "What the height would be on a standard day.",
+        note = stringResource(R.string.meter_pressure_altitude_note),
     )
 }
 
@@ -234,10 +239,10 @@ private fun Reading(label: String, value: String, unit: String, note: String? = 
 @Composable
 private fun Trouble(trouble: Trouble, onAllow: () -> Unit) {
     val message = when (trouble) {
-        Trouble.NO_PERMISSION -> "This needs the location permission to read a speed."
-        Trouble.LOCATION_OFF -> "Location is switched off for the whole phone."
-        Trouble.NO_PROVIDER -> "No location provider chosen yet. Pick one in settings."
-        Trouble.PROVIDER_OFF -> "The chosen provider is switched off."
+        Trouble.NO_PERMISSION -> stringResource(R.string.meter_trouble_no_permission)
+        Trouble.LOCATION_OFF -> stringResource(R.string.meter_trouble_location_off)
+        Trouble.NO_PROVIDER -> stringResource(R.string.meter_trouble_no_provider)
+        Trouble.PROVIDER_OFF -> stringResource(R.string.meter_trouble_provider_off)
         Trouble.NONE -> return
     }
 
@@ -248,7 +253,7 @@ private fun Trouble(trouble: Trouble, onAllow: () -> Unit) {
             OutlinedButtonMMD(
                 onClick = onAllow,
                 modifier = Modifier.fillMaxWidth().height(48.dp),
-            ) { TextMMD(text = "Allow location", style = MaterialTheme.typography.bodySmall) }
+            ) { TextMMD(text = stringResource(R.string.meter_allow_location), style = MaterialTheme.typography.bodySmall) }
         }
     }
 }
