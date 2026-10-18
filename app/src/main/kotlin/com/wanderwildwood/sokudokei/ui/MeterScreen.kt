@@ -68,36 +68,27 @@ fun MeterScreen(
         ) {
             item {
                 Speed(state, onFullScreen)
-            }
-            item {
-
                 if (state.trouble != Trouble.NONE) {
                     Trouble(state.trouble, onAllow)
                 }
-            }
-            item {
-
                 Spacer(Modifier.height(8.dp))
-            }
-            item {
                 HorizontalDividerMMD()
             }
-            item {
-
-                Altitude(state)
-            }
-            item {
-
-                if (state.fix != null) {
-                    HorizontalDividerMMD()
-                    Position(state)
+            // One reading to a row, each with its rule under it but the last, so a page fills
+            // with as many as fit and the next page opens on a reading, never on a rule.
+            val rows = buildList<@Composable () -> Unit> {
+                add { Altitude(state) }
+                if (state.fix != null) add { Position(state) }
+                if (state.hasBarometer) {
+                    add { AirPressure(state) }
+                    add { SeaLevel(state) }
+                    add { PressureAltitude(state) }
                 }
             }
-            item {
-
-                if (state.hasBarometer) {
-                    HorizontalDividerMMD()
-                    Air(state)
+            rows.forEachIndexed { i, row ->
+                item {
+                    row()
+                    if (i < rows.lastIndex) HorizontalDividerMMD()
                 }
             }
         }
@@ -185,19 +176,20 @@ private fun coordinate(degrees: Double, @StringRes positive: Int, @StringRes neg
 }
 
 @Composable
-private fun Air(state: MeterState) {
+private fun AirPressure(state: MeterState) {
     val unit = state.pressureUnit
     val hPa = state.hectopascals
-
     Reading(
         label = stringResource(R.string.meter_air_pressure),
         value = if (hPa.isNaN()) "–"
         else String.format("%.${unit.decimals}f", unit.from(hPa)),
         unit = stringResource(unit.labelRes),
     )
+}
 
-    HorizontalDividerMMD()
-
+@Composable
+private fun SeaLevel(state: MeterState) {
+    val unit = state.pressureUnit
     val seaLevel = state.seaLevelHectopascals
     Reading(
         label = stringResource(R.string.meter_sea_level),
@@ -206,9 +198,10 @@ private fun Air(state: MeterState) {
         unit = stringResource(unit.labelRes),
         note = if (seaLevel.isNaN()) stringResource(R.string.meter_sea_level_note) else null,
     )
+}
 
-    HorizontalDividerMMD()
-
+@Composable
+private fun PressureAltitude(state: MeterState) {
     val pressureAltitude = state.pressureAltitudeMetres
     Reading(
         label = stringResource(R.string.meter_pressure_altitude),
