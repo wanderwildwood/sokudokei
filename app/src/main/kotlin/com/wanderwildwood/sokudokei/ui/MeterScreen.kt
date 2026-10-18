@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
-import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.sokudokei.R
@@ -58,15 +57,14 @@ fun MeterScreen(
             )
         },
     ) { contentPadding ->
-        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, with no
-        // scrollbar beside it. A settings screen that coasts was the one
+        // A paged list, not a scrolling Column: it turns a page on whole rows to a swipe and
+        // stops, with no scrollbar beside it. A settings screen that coasts was the one
         // screen in the app that did not behave like the phone it is on.
-        LazyColumnMMD(
+        PagedColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
-            isScrollbarVisible = false,
         ) {
             item {
                 Speed(state, onFullScreen)
@@ -101,10 +99,6 @@ fun MeterScreen(
                     HorizontalDividerMMD()
                     Air(state)
                 }
-            }
-            item {
-
-                Spacer(Modifier.height(24.dp))
             }
         }
     }
