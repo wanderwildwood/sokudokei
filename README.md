@@ -12,7 +12,7 @@ sixteen greys, a slow redraw, and is read outdoors as often as indoors.
 
 | | | | |
 |---|---|---|---|
-| ![Readings](screenshots/01-meter.png) | ![Speed](screenshots/02-speed.png) | ![Settings](screenshots/03-settings.png) | ![About](screenshots/04-about.png) |
+| ![Readings](screenshots/01-meter.png) | ![Speed](screenshots/02-speed.png) | ![Settings](screenshots/03-settings.png) | ![Air pressure](screenshots/04-pressure.png) |
 
 ## What it shows
 
