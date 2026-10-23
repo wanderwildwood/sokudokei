@@ -72,6 +72,17 @@ original is Android views.
 
 Icons are [Material Symbols](https://fonts.google.com/icons), Apache License 2.0.
 
+## Getting it, and keeping it
+
+Download <https://github.com/wanderwildwood/sokudokei/releases/latest/download/sokudokei.apk>
+and sideload it. That address always points at the newest release, and every release
+publishes a `.sha256` beside the APK if you would rather check than trust.
+
+For updates without doing this by hand, add this repository to
+[Obtainium](https://github.com/ImranR98/Obtainium):
+
+    https://github.com/wanderwildwood/sokudokei
+
 ## Licence
 
 GNU General Public License v3.0 only. See [LICENSE](LICENSE).
