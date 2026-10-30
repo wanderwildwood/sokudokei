@@ -90,16 +90,13 @@
 
     <!-- Heading. %1$s is the version number, e.g. 0.1.0 -->
     <string name="about_title">Speedometer %1$s</string>
-    <string name="about_privacy">Your position never leaves the phone, and the app cannot reach the network at all.</string>
+    <string name="about_privacy">Your position never leaves the phone, and the app cannot reach the network at all: it has no internet permission. It asks for one permission, precise location, and reads the GPS and the barometer only while it is on screen. It keeps no history, no track and no trip log; the only things stored are your three units and the chosen location provider. There are no ads, no analytics and no tracking, and the app is not included in phone backups.</string>
     <string name="about_sources">Speed and altitude come from the GPS, air pressure from the phone\'s barometer. Nothing here is accurate enough to navigate by.</string>
     <string name="about_after">After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit and atmosphere maths this carries.</string>
     <!-- The name of the app's licence -->
-    <string name="about_licence">GNU General Public License v3</string>
-    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
     <string name="about_feed_the_llamas">feed the llamas</string>
     <!-- Toast when the donation link cannot be opened -->
-    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
     <!-- The folio at the foot of a paged list, "2 / 6"; a tap on it asks for a page -->
@@ -108,4 +105,27 @@
     <string name="folio_page">Page %1$d of %2$d</string>
     <string name="folio_go">Go</string>
     <string name="folio_cancel">Cancel</string>
+    <string name="about_licences">Licences</string>
+    <string name="licences_title">Licences</string>
+    <string name="licences_source_head">Source code</string>
+    <string name="licences_licence_head">Licence</string>
+    <string name="licences_licence">Speedometer is free software under the GNU General Public License, version 3 only (GPL-3.0-only), copyright wander wildwood, for what is written here. It carries the unit and atmosphere maths of Blue Square Speedometer (Apache-2.0). The work it is built on keeps its own licence and its authors keep their copyright, as listed under Built with. The full text of each licence is at the end of this page.</string>
+    <string name="licences_built_head">Built with</string>
+    <string name="licences_back">Back</string>
+    <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
+    <string name="licences_gpl">GNU General Public License, version 3</string>
+    <string name="licences_apache">Apache License, version 2.0</string>
+    <string name="licences_mit">MIT License</string>
+    <string name="licences_ofl">SIL Open Font License, version 1.1</string>
+    <string name="about_safety_head">Do not use while driving</string>
+    <string name="about_safety">Do not look at or handle this app while driving, riding or flying. Its readings come from a phone\'s GPS and barometer, can be late, wrong or missing, and are not accurate enough to navigate by, to enforce a speed limit or to settle a dispute. Your own eyes and the vehicle\'s instruments come first.</string>
+    <string name="about_privacy_head">Privacy</string>
+    <string name="about_terms_head">Terms</string>
+    <string name="about_terms">This app is free software under the GNU General Public License v3. It comes with no warranty, to the extent the law allows: use it at your own risk. It is not a certified instrument and not safety equipment.</string>
+    <string name="about_sources_head">Where the numbers come from</string>
+    <string name="meter_safety_line">Do not use while driving. Readings can be wrong.</string>
+    <string name="meter_open_settings">Open app settings</string>
+    <string name="meter_open_location_settings">Open location settings</string>
+    <string name="meter_trouble_no_permission_blocked">Location is turned off for this app. Speed needs it: it is read from the GPS and goes nowhere else. Turn it on in the app\'s settings.</string>
+    <string name="meter_searching">Looking for a GPS fix. This can take a minute, best out of doors.</string>
 </resources>

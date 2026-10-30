@@ -34,6 +34,11 @@ The only thing written to storage at all is which units you chose and which loca
 provider to read from — four short strings in `SharedPreferences`, and you can see every
 one of them in `meter/Preferences.kt`.
 
+## Backups
+
+The app is excluded from Android's phone backups (`allowBackup` is false), so even its four
+settings stay on the phone.
+
 ## The barometer
 
 Air pressure is read from the phone's own sensor. It never leaves the phone either, and
@@ -66,3 +71,8 @@ app can hold it, and it exists so a runtime-registered broadcast receiver is not
 to other apps. It grants access to nothing.
 
 There is no `INTERNET` in that list, which is the claim above without having to trust me.
+
+## Safety
+
+Do not use this app while driving, riding or flying. Readings come from a phone's GPS and
+barometer, can be wrong or late, and are not for navigation or enforcement.

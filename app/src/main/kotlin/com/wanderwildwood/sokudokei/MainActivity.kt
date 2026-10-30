@@ -4,10 +4,13 @@ import android.Manifest
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalCursorBlinkEnabled
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +45,11 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD(colorScheme = monochrome) {
-                Speedometer()
+            // A steady caret in every text field (the go-to-page box): a blinking one repaints the panel.
+            CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
+                ThemeMMD(colorScheme = monochrome) {
+                    Speedometer()
+                }
             }
         }
     }
@@ -57,10 +63,16 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var screen by remember { mutableStateOf(Screen.METER) }
 
-    val ask = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-        viewModel::permissionAnswered,
-    )
+    // Once the request has been refused, the system may stop asking; the screen then points at
+    // the app's own settings instead of a button that does nothing.
+    var denied by remember { mutableStateOf(false) }
+    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        denied = !granted
+        viewModel.permissionAnswered(granted)
+    }
+
+    // Back goes up one screen, to the meter, and only from the meter leaves the app.
+    BackHandler(enabled = screen != Screen.METER) { screen = Screen.METER }
 
     // The GPS and the barometer run only while this app is in front. Both are switched on
     // at resume rather than once at startup, because the location permission, the phone's
@@ -85,6 +97,7 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
             onSettings = { screen = Screen.SETTINGS },
             onFullScreen = { screen = Screen.BIG },
             onAllow = { ask.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+            denied = denied,
         )
 
         Screen.BIG -> BigSpeedScreen(

@@ -4,6 +4,7 @@ import android.content.Context
 import com.wanderwildwood.sokudokei.core.Altitude
 import com.wanderwildwood.sokudokei.core.Pressure
 import com.wanderwildwood.sokudokei.core.Speed
+import com.wanderwildwood.sokudokei.core.UnitDefaults
 
 /**
  * The four things there are to set.
@@ -13,18 +14,21 @@ import com.wanderwildwood.sokudokei.core.Speed
  */
 class Preferences(context: Context) {
 
+    /** What the phone's region suggests, used until a unit is chosen. */
+    private val defaults = UnitDefaults.forCountry(java.util.Locale.getDefault().country)
+
     private val store = context.getSharedPreferences("speedometer", Context.MODE_PRIVATE)
 
     var speed: Speed
-        get() = read(SPEED, Speed.entries, Speed.MPH)
+        get() = read(SPEED, Speed.entries, defaults.speed)
         set(value) = write(SPEED, value.name)
 
     var altitude: Altitude
-        get() = read(ALTITUDE, Altitude.entries, Altitude.FEET)
+        get() = read(ALTITUDE, Altitude.entries, defaults.altitude)
         set(value) = write(ALTITUDE, value.name)
 
     var pressure: Pressure
-        get() = read(PRESSURE, Pressure.entries, Pressure.INHG)
+        get() = read(PRESSURE, Pressure.entries, defaults.pressure)
         set(value) = write(PRESSURE, value.name)
 
     /** Empty until one is chosen, which is what makes the settings row say "Not set". */

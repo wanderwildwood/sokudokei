@@ -121,3 +121,19 @@ fun degreesMinutesSeconds(degrees: Double): Dms {
 
     return Dms(negative = degrees < 0, degrees = whole, minutes = minutes, seconds = seconds, tenths = tenths)
 }
+
+/**
+ * The units a person in [country] (ISO code, as Locale gives it) expects before choosing any.
+ * The United States, Liberia and Myanmar use miles, feet and inches of mercury; the United
+ * Kingdom keeps miles per hour but measures height and pressure the metric way; everywhere
+ * else it is kilometres per hour, metres and hectopascals.
+ */
+data class UnitDefaults(val speed: Speed, val altitude: Altitude, val pressure: Pressure) {
+    companion object {
+        fun forCountry(country: String?): UnitDefaults = when (country?.uppercase()) {
+            "US", "LR", "MM" -> UnitDefaults(Speed.MPH, Altitude.FEET, Pressure.INHG)
+            "GB" -> UnitDefaults(Speed.MPH, Altitude.METRES, Pressure.HPA)
+            else -> UnitDefaults(Speed.KMH, Altitude.METRES, Pressure.HPA)
+        }
+    }
+}

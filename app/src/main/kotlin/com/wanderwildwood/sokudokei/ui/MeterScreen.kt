@@ -1,6 +1,10 @@
 package com.wanderwildwood.sokudokei.ui
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.annotation.StringRes
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,6 +51,7 @@ fun MeterScreen(
     onSettings: () -> Unit,
     onFullScreen: () -> Unit,
     onAllow: () -> Unit,
+    denied: Boolean = false,
 ) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
@@ -69,8 +74,16 @@ fun MeterScreen(
             item {
                 Speed(state, onFullScreen)
                 if (state.trouble != Trouble.NONE) {
-                    Trouble(state.trouble, onAllow)
+                    Trouble(state.trouble, denied, onAllow)
                 }
+                if (state.trouble == Trouble.NONE && state.fix == null) {
+                    TextMMD(text = stringResource(R.string.meter_searching), style = MaterialTheme.typography.labelSmall)
+                }
+                TextMMD(
+                    text = stringResource(R.string.meter_safety_line),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
                 Spacer(Modifier.height(8.dp))
                 HorizontalDividerMMD()
             }
@@ -239,9 +252,11 @@ private fun Reading(label: String, value: String, unit: String, note: String? = 
 }
 
 @Composable
-private fun Trouble(trouble: Trouble, onAllow: () -> Unit) {
+private fun Trouble(trouble: Trouble, denied: Boolean, onAllow: () -> Unit) {
+    val context = LocalContext.current
     val message = when (trouble) {
-        Trouble.NO_PERMISSION -> stringResource(R.string.meter_trouble_no_permission)
+        Trouble.NO_PERMISSION ->
+            stringResource(if (denied) R.string.meter_trouble_no_permission_blocked else R.string.meter_trouble_no_permission)
         Trouble.LOCATION_OFF -> stringResource(R.string.meter_trouble_location_off)
         Trouble.NO_PROVIDER -> stringResource(R.string.meter_trouble_no_provider)
         Trouble.PROVIDER_OFF -> stringResource(R.string.meter_trouble_provider_off)
@@ -256,6 +271,24 @@ private fun Trouble(trouble: Trouble, onAllow: () -> Unit) {
                 onClick = onAllow,
                 modifier = Modifier.fillMaxWidth().height(48.dp),
             ) { TextMMD(text = stringResource(R.string.meter_allow_location), style = MaterialTheme.typography.bodySmall) }
+            Spacer(Modifier.height(8.dp))
+            OutlinedButtonMMD(
+                onClick = {
+                    runCatching {
+                        context.startActivity(
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", context.packageName, null)),
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+            ) { TextMMD(text = stringResource(R.string.meter_open_settings), style = MaterialTheme.typography.bodySmall) }
+        }
+        if (trouble == Trouble.LOCATION_OFF || trouble == Trouble.PROVIDER_OFF) {
+            Spacer(Modifier.height(10.dp))
+            OutlinedButtonMMD(
+                onClick = { runCatching { context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) } },
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+            ) { TextMMD(text = stringResource(R.string.meter_open_location_settings), style = MaterialTheme.typography.bodySmall) }
         }
     }
 }

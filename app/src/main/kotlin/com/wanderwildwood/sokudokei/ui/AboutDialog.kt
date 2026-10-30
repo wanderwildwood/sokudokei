@@ -1,72 +1,88 @@
 package com.wanderwildwood.sokudokei.ui
 
-import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.wanderwildwood.sokudokei.BuildConfig
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import com.wanderwildwood.sokudokei.R
 
 /**
- * What this is, what it does with what it knows, and whose work it started from.
- *
- * The line about the position is here because a speedometer is a location app, and a
- * stranger has no way to tell from the outside whether one is sending its fixes anywhere.
+ * The safety note, what it does with the position, the terms, and whose work it is built on. The text sits in a box of fixed
+ * height and turns by the page, since the dialog cannot scroll; Close stays under it. 
  */
 @Composable
 fun AboutDialog(onDismiss: () -> Unit) {
+    val room = LocalConfiguration.current.screenHeightDp.dp * 0.62f
+    var licences by rememberSaveable { mutableStateOf(false) }
     EInkDialog(onDismiss = onDismiss) {
-        TextMMD(
-            text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-        )
+        if (licences) {
+            LicencesPage(onBack = { licences = false }, room = room)
+            return@EInkDialog
+        }
+        PagedColumn(modifier = Modifier.fillMaxWidth().height(room)) {
+            item(key = "title") {
+                TextMMD(
+                    text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
+            item(key = "safety") { AboutPart(R.string.about_safety_head, R.string.about_safety) }
+            item(key = "privacy") { AboutPart(R.string.about_privacy_head, R.string.about_privacy) }
+            item(key = "terms") { AboutPart(R.string.about_terms_head, R.string.about_terms) }
+            item(key = "sources") { AboutPart(R.string.about_sources_head, R.string.about_sources) }
+            item(key = "after") {
+                TextMMD(
+                    text = stringResource(R.string.about_after),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(top = 14.dp),
+                )
+            }
+            item(key = "licences") {
+                TextMMD(
+                    text = stringResource(R.string.about_licences),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable { licences = true }.padding(top = 14.dp).heightIn(min = 48.dp).wrapContentHeight(Alignment.CenterVertically),
+                )
+            }
+            item(key = "source") {
+                TextMMD(
+                    text = "github.com/wanderwildwood/sokudokei",
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.openLink("https://github.com/wanderwildwood/sokudokei").padding(top = 14.dp),
+                )
+            }
+            item(key = "llama") { Box(Modifier.padding(top = 4.dp)) { Llama() } }
+        }
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_privacy),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_sources),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_after),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
-
-        Spacer(Modifier.height(14.dp))
-        Llama()
-
-        Spacer(Modifier.height(18.dp))
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
@@ -74,59 +90,50 @@ fun AboutDialog(onDismiss: () -> Unit) {
     }
 }
 
+@Composable
+private fun AboutPart(head: Int, body: Int) {
+    Column(Modifier.padding(top = 14.dp)) {
+        TextMMD(text = stringResource(head), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+        TextMMD(text = stringResource(body), style = MaterialTheme.typography.labelSmall)
+    }
+}
+
+/** A target of at least 48 dp that opens [url], or says there is no browser to do it. */
+@Composable
+private fun Modifier.openLink(url: String): Modifier {
+    val context = LocalContext.current
+    val shown = url.removePrefix("https://")
+    return this
+        .clickable { openLink(context, url, context.getString(R.string.about_no_browser_address, shown)) }
+        .heightIn(min = 48.dp)
+        .wrapContentHeight(Alignment.CenterVertically)
+}
+
 /**
- * A llama at the foot of the About, which opens the page a donation goes to.
- * The site's address sits at the start of the same line and opens the site; the llama and its words open the page.
+ * A llama at the foot of the About, which opens the page a donation goes to. The site's
+ * address sits at the start of the same line and opens the site; the llama and its words
+ * open the page.
  *
- * Three words rather than an address: a verb and an object, so what happens when you press
- * them is not a surprise even though the page is not named. The drawing is his own, and it is
- * ink rather than an emoji, which is a colour glyph and reaches the panel as a pale smudge.
- *
- * The Kompakt may have nothing registered for a web address, so the intent is allowed to fail
- * quietly rather than take the dialog down with it.
+ * Straight to the checkout: the Donate button on the site only leads there anyway. The short
+ * square.link form, which is what the site itself links to, so a regenerated checkout follows
+ * it. A phone with nothing that opens a web address says so rather than doing nothing.
  */
 @Composable
 private fun Llama() {
-    val context = LocalContext.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),
     ) {
+        // The site's address opens the site, the way the llama beside it opens its page.
         TextMMD(
             text = "wanderthe.dev",
             style = MaterialTheme.typography.labelSmall,
-            // The site's address opens the site, the way the llama beside it opens its page.
-            modifier = Modifier
-                .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://wanderthe.dev")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .padding(vertical = 4.dp),
+            modifier = Modifier.openLink("https://wanderthe.dev"),
         )
         Spacer(Modifier.width(6.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .clickable {
-                    // Straight to the checkout. The Donate button on the site only leads
-                    // here anyway, so the page in between is a press the reader does not need.
-                    // The short square.link form, not the long checkout.square.site address it
-                    // redirects to -- the short one is what the site itself links to, so a
-                    // regenerated checkout follows it and a published app does not break.
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://square.link/u/AGu8oT10")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .padding(vertical = 4.dp),
+            modifier = Modifier.openLink("https://square.link/u/AGu8oT10"),
         ) {
             Image(
                 painter = painterResource(R.drawable.llama),
