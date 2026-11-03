@@ -92,18 +92,18 @@
     <string name="about_title">Speedometer %1$s</string>
     <string name="about_privacy">Your position never leaves the phone, and the app cannot reach the network at all: it has no internet permission. It asks for one permission, precise location, and reads the GPS and the barometer only while it is on screen. It keeps no history, no track and no trip log; the only things stored are your three units and the chosen location provider. There are no ads, no analytics and no tracking, and the app is not included in phone backups.</string>
     <string name="about_sources">Speed and altitude come from the GPS, air pressure from the phone\'s barometer. Nothing here is accurate enough to navigate by.</string>
-    <string name="about_after">After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit and atmosphere maths this carries.</string>
+    <string name="about_after">After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit and atmosphere math this carries.</string>
     <!-- The name of the app's licence -->
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
     <string name="about_feed_the_llamas">Feed the llamas</string>
     <!-- Toast when the donation link cannot be opened -->
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
-    <string name="about_licences">Licences</string>
-    <string name="licences_title">Licences</string>
+    <string name="about_licences">Licenses</string>
+    <string name="licences_title">Licenses</string>
     <string name="licences_source_head">Source code</string>
-    <string name="licences_no_text">%s needs no licence text here.</string>
-    <string name="licences_licence">Speedometer is free software: GPL-3.0-only, copyright wander wildwood. It carries the unit and atmosphere maths of Blue Square Speedometer (Apache-2.0). What it is built on keeps its own licences, each on its own page.</string>
+    <string name="licences_no_text">%s needs no license text here.</string>
+    <string name="licences_licence">Speedometer is free software: GPL-3.0-only, copyright wander wildwood. It carries the unit and atmosphere math of Blue Square Speedometer (Apache-2.0). What it is built on keeps its own licenses, each on its own page.</string>
     <string name="licences_back">Back</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="about_safety_head">Do not use while driving</string>
@@ -120,5 +120,5 @@
     <string name="licences_full_head">Full texts</string>
     <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
     <string name="licences_full_apache">Apache License 2.0 (full text)</string>
-    <string name="licences_full_ofl">SIL Open Font Licence 1.1 (full text)</string>
+    <string name="licences_full_ofl">SIL Open Font License 1.1 (full text)</string>
 </resources>
