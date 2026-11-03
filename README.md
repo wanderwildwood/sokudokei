@@ -62,7 +62,7 @@ fallback key by design.
 
 After [Blue Square Speedometer](https://github.com/nhirokinet/bluesquarespeedometer) by
 nhirokinet, Apache License 2.0, from which this carries the unit conversions and the
-standard-atmosphere maths. That author chased every conversion factor to a standards
+standard-atmosphere math. That author chased every conversion factor to a standards
 document rather than a search result, and those references are kept in the source where
 the numbers are used.
 
