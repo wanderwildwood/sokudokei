@@ -85,7 +85,7 @@ fun MeterScreen(
                     modifier = Modifier.padding(top = 4.dp),
                 )
                 Spacer(Modifier.height(8.dp))
-                HorizontalDividerMMD()
+                DottedRule(start = 0.dp, end = 0.dp)
             }
             // One reading to a row, each with its rule under it but the last, so a page fills
             // with as many as fit and the next page opens on a reading, never on a rule.
@@ -101,7 +101,7 @@ fun MeterScreen(
             rows.forEachIndexed { i, row ->
                 item {
                     row()
-                    if (i < rows.lastIndex) HorizontalDividerMMD()
+                    if (i < rows.lastIndex) DottedRule(start = 0.dp, end = 0.dp)
                 }
             }
         }
