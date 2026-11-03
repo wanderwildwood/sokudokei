@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
-      Fine location only. A speedometer needs a fix good enough to differentiate one
-      second from the next, and coarse location cannot give a speed at all. There is no
-      background location permission and no service: the app reads the GPS only while it
-      is the screen you are looking at.
+      Fine location. A speedometer needs a fix good enough to differentiate one second
+      from the next, and coarse location cannot give a speed at all. Coarse is declared and
+      asked for alongside it only because Android 12 and later ignore a request for fine
+      alone; the meter runs only once fine is granted. There is no background location
+      permission and no service: the app reads the GPS only while it is the screen you are
+      looking at.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.barometer" android:required="false" />

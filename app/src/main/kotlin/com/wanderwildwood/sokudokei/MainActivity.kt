@@ -66,7 +66,9 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
     // Once the request has been refused, the system may stop asking; the screen then points at
     // the app's own settings instead of a button that does nothing.
     var denied by remember { mutableStateOf(false) }
-    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { answers ->
+        // Approximate location alone cannot give a speed, so only fine counts as a yes.
+        val granted = answers[Manifest.permission.ACCESS_FINE_LOCATION] == true
         denied = !granted
         viewModel.permissionAnswered(granted)
     }
@@ -96,7 +98,9 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
             state = state,
             onSettings = { screen = Screen.SETTINGS },
             onFullScreen = { screen = Screen.BIG },
-            onAllow = { ask.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+            onAllow = {
+                ask.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+            },
             denied = denied,
         )
 

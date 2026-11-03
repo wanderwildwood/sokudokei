@@ -6,16 +6,20 @@ has no way to send anything anywhere.
 That is the whole policy. The rest of this page is the evidence for it, because a privacy
 policy that cannot be checked is just a promise.
 
-## One permission
+## Location, and nothing else
 
-`app/src/main/AndroidManifest.xml` declares exactly one:
+`app/src/main/AndroidManifest.xml` declares exactly two permissions, both for the same
+thing:
 
 ```
 android.permission.ACCESS_FINE_LOCATION
+android.permission.ACCESS_COARSE_LOCATION
 ```
 
 A speedometer needs a fix good enough to tell one second from the next. Coarse location
-cannot produce a speed at all, so there is nothing to be gained by asking for less.
+cannot produce a speed at all, so the meter starts only once fine location is granted.
+Coarse is declared and asked for alongside it only because Android 12 and later ignore a
+request for fine location on its own.
 
 There is **no `INTERNET` permission**. Without it Android will not let the app open a
 network connection, so nothing it knows can leave the phone even by accident, and no
@@ -58,14 +62,15 @@ The source is here in full. If you would rather not read it:
 aapt2 dump badging app-release.apk | grep uses-permission
 ```
 
-That prints every permission the built app actually carries. It prints two lines:
+That prints every permission the built app actually carries. It prints three lines:
 
 ```
 uses-permission: name='android.permission.ACCESS_FINE_LOCATION'
+uses-permission: name='android.permission.ACCESS_COARSE_LOCATION'
 uses-permission: name='com.wanderwildwood.sokudokei.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
 ```
 
-The first is the one described above. The second is not mine: AndroidX defines it
+The first two are the ones described above. The third is not mine: AndroidX defines it
 automatically for every app, it is signature-level and scoped to this package so only this
 app can hold it, and it exists so a runtime-registered broadcast receiver is not exported
 to other apps. It grants access to nothing.
