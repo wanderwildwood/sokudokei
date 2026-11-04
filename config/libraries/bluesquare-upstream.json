@@ -1,0 +1,14 @@
+{
+  "uniqueId": "bluesquare-speedometer",
+  "name": "Blue Square Speedometer",
+  "description": "The app this one started from: its unit and atmosphere math.",
+  "developers": [
+    {
+      "name": "nhirokinet"
+    }
+  ],
+  "website": "https://github.com/nhirokinet/bluesquarespeedometer",
+  "licenses": [
+    "Apache-2.0"
+  ]
+}
