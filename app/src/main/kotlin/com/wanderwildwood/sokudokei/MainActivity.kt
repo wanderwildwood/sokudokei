@@ -26,6 +26,7 @@ import com.wanderwildwood.sokudokei.meter.MeterViewModel
 import com.wanderwildwood.sokudokei.ui.BigSpeedScreen
 import com.wanderwildwood.sokudokei.ui.MeterScreen
 import com.wanderwildwood.sokudokei.ui.SettingsScreen
+import com.wanderwildwood.sokudokei.ui.houseTypography
 import com.wanderwildwood.sokudokei.ui.monochrome
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             // A steady caret in every text field (the go-to-page box): a blinking one repaints the panel.
             CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
-                ThemeMMD(colorScheme = monochrome) {
+                ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
                     Speedometer()
                 }
             }
