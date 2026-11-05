@@ -90,6 +90,7 @@
 
     <!-- Heading. %1$s is the version number, e.g. 0.1.0 -->
     <string name="about_title">Speedometer %1$s</string>
+    <string name="about_what">How fast you are going, how high you are, and what the air is doing. Press the speed and it fills the screen.</string>
     <string name="about_privacy">Your position never leaves the phone, and the app cannot reach the network at all: it has no internet permission. It asks for one permission, precise location, and reads the GPS and the barometer only while it is on screen. It keeps no history, no track and no trip log; the only things stored are your three units and the chosen location provider. There are no ads, no analytics and no tracking, and the app is not included in phone backups.</string>
     <string name="about_sources">Speed and altitude come from the GPS, air pressure from the phone\'s barometer. Nothing here is accurate enough to navigate by.</string>
     <string name="about_after">After Blue Square Speedometer by nhirokinet, Apache 2.0, whose unit and atmosphere math this carries.</string>
@@ -103,8 +104,12 @@
     <string name="licences_title">Licenses</string>
     <string name="licences_source_head">Source code</string>
     <string name="licences_no_text">%s needs no license text here.</string>
-    <string name="licences_licence">Speedometer is free software: GPL-3.0-only, copyright wander wildwood. It carries the unit and atmosphere math of Blue Square Speedometer (Apache-2.0). What it is built on keeps its own licenses, each on its own page.</string>
+    <string name="licences_licence">Speedometer is free software: GPL-3.0-only, copyright wander wildwood. It carries the unit and atmosphere math of Blue Square Speedometer (Apache-2.0). What it is built on keeps its own licenses, listed below.</string>
     <string name="licences_back">Back</string>
+    <string name="about_open_drawer">Open %1$s</string>
+    <string name="about_close_drawer">Close %1$s</string>
+    <string name="about_contact_head">Contact</string>
+    <string name="about_links_head">Links</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="about_safety_head">Do not use while driving</string>
     <string name="about_safety">Do not look at or handle this app while driving, riding or flying. Its readings come from a phone\'s GPS and barometer, can be late, wrong or missing, and are not accurate enough to navigate by, to enforce a speed limit or to settle a dispute. Your own eyes and the vehicle\'s instruments come first.</string>
