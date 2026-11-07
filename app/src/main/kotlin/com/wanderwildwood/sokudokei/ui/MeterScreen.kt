@@ -70,6 +70,7 @@ fun MeterScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            showCutRow = true,
         ) {
             item {
                 Speed(state, onFullScreen)
