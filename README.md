@@ -1,6 +1,4 @@
-# Speedometer
-
-速度計 *sokudokei*
+# 速度計 sokudokei — Speedometer
 
 How fast you are going, how high you are, and what the air is doing — on an E Ink phone,
 in black and white, with nothing on the screen that is not a reading.
