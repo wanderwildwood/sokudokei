@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
@@ -42,6 +43,7 @@ fun SettingsScreen(
     onPressureUnit: () -> Unit,
     onProvider: (String) -> Unit,
 ) {
+    val context = LocalContext.current
     var aboutOpen by remember { mutableStateOf(false) }
     var providerOpen by remember { mutableStateOf(false) }
 
@@ -87,6 +89,12 @@ fun SettingsScreen(
                     value = state.provider.ifEmpty { notSet },
                     onClick = { providerOpen = true },
                 )
+            }
+            item {
+                Setting(
+                    stringResource(R.string.settings_dark),
+                    stringResource(if (DarkMode.on) R.string.settings_dark_on else R.string.settings_dark_off),
+                ) { DarkMode.set(context, !DarkMode.on) }
             }
         }
     }
