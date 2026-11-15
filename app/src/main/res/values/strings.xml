@@ -115,7 +115,7 @@
     <string name="about_safety">Do not look at or handle this app while driving, riding or flying. Its readings come from a phone\'s GPS and barometer, can be late, wrong or missing, and are not accurate enough to navigate by, to enforce a speed limit or to settle a dispute. Your own eyes and the vehicle\'s instruments come first.</string>
     <string name="about_privacy_head">Privacy</string>
     <string name="about_terms_head">Terms</string>
-    <string name="about_terms">This app is free software under the GNU General Public License v3. It comes with no warranty, to the extent the law allows: use it at your own risk. It is not a certified instrument and not safety equipment. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
+    <string name="about_terms">This app is free software under the GNU General Public License, version 3 only. It comes with no warranty, to the extent the law allows: use it at your own risk. It is not a certified instrument and not safety equipment. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
     <string name="about_sources_head">Where the numbers come from</string>
     <string name="meter_safety_line">Do not use while driving. Readings can be wrong.</string>
     <string name="meter_open_settings">Open app settings</string>
