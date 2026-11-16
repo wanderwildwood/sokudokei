@@ -28,6 +28,7 @@ import com.wanderwildwood.sokudokei.ui.MeterScreen
 import com.wanderwildwood.sokudokei.ui.SettingsScreen
 import com.wanderwildwood.sokudokei.ui.houseTypography
 import com.wanderwildwood.sokudokei.ui.monochrome
+import com.wanderwildwood.sokudokei.ui.DarkSelection
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +49,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             // A steady caret in every text field (the go-to-page box): a blinking one repaints the panel.
             CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
-                ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
+                ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
                     Speedometer()
-                }
+                } }
             }
         }
     }
