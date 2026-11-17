@@ -25,7 +25,7 @@ sixteen grays, a slow redraw, and is read outdoors as often as indoors.
 ## What it does not do
 
 There is no map, no history, no trip log and no account. It holds nothing between one
-run and the next except which units you chose.
+run and the next except its settings: the units, the location provider and dark mode.
 
 Your position never leaves the phone. The app requests no network permission at all, so
 it could not send a fix anywhere if it were asked to.

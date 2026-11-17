@@ -34,13 +34,16 @@ moment it leaves — see `MainActivity.kt`, which ties both to `ON_RESUME` and `
 It is turned into the numbers on the screen and then thrown away. The app keeps no
 history, no track, no trip log, and no file of any kind holding a position.
 
-The only thing written to storage at all is which units you chose and which location
-provider to read from — four short strings in `SharedPreferences`, and you can see every
-one of them in `meter/Preferences.kt`.
+The only things written to storage at all are which units you chose and which location
+provider to read from — four short strings in `SharedPreferences`, all in
+`meter/Preferences.kt` — and whether dark mode is on, kept in `ui/DarkMode.kt`.
+
+If Home (`com.wanderwildwood.iori`) is installed, the app asks it whether its dark switch is
+on, so the two follow one switch. That is all it reads from Home, and it sends Home nothing.
 
 ## Backups
 
-The app is excluded from Android's phone backups (`allowBackup` is false), so even its four
+The app is excluded from Android's phone backups (`allowBackup` is false), so even its few
 settings stay on the phone.
 
 ## The barometer
