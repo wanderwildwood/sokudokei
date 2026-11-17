@@ -67,7 +67,7 @@ fun locationEnabled(context: Context): Boolean {
  * are thrown away before anyone sees them.
  */
 @SuppressLint("MissingPermission")
-fun fixes(context: Context, provider: String): Flow<Fix> = callbackFlow {
+fun fixes(context: Context, provider: String, onProviderChanged: () -> Unit = {}): Flow<Fix> = callbackFlow {
     if (provider.isEmpty() || !hasLocationPermission(context)) {
         close()
         return@callbackFlow
@@ -99,8 +99,8 @@ fun fixes(context: Context, provider: String): Flow<Fix> = callbackFlow {
         // it on the SDK this builds against.
         @Suppress("OVERRIDE_DEPRECATION")
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
-        override fun onProviderEnabled(provider: String) = Unit
-        override fun onProviderDisabled(provider: String) = Unit
+        override fun onProviderEnabled(provider: String) = onProviderChanged()
+        override fun onProviderDisabled(provider: String) = onProviderChanged()
     }
 
     val started = runCatching {
@@ -108,6 +108,7 @@ fun fixes(context: Context, provider: String): Flow<Fix> = callbackFlow {
     }.isSuccess
 
     if (!started) {
+        onProviderChanged()
         close()
         return@callbackFlow
     }

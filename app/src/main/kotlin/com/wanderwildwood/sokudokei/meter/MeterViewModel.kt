@@ -16,9 +16,11 @@ import com.wanderwildwood.sokudokei.device.pressures
 import com.wanderwildwood.sokudokei.device.providerEnabled
 import com.wanderwildwood.sokudokei.device.providers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -115,6 +117,8 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
     fun pause() {
         locationJob?.cancel()
         locationJob = null
+        // Coming back, the speed shown is a new one, not whatever it was when the app was left.
+        _state.update { it.copy(fix = null) }
         pressureJob?.cancel()
         pressureJob = null
     }
@@ -161,8 +165,17 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
         if (provider.isEmpty() || !hasLocationPermission(context)) return
 
         locationJob = viewModelScope.launch {
-            fixes(context, provider).collect { fix ->
+            // Switched off or on while the app is in front, or refused at the start: say so.
+            val changed = {
+                val now = trouble(provider)
+                _state.update { it.copy(trouble = now, fix = if (now == Trouble.NONE) it.fix else null) }
+            }
+            fixes(context, provider, changed).collectLatest { fix ->
                 _state.update { it.copy(fix = fix, trouble = Trouble.NONE) }
+                // No fix for a while: the speed on screen is no longer the speed now, so it
+                // goes back to the dash and the searching line until the next one.
+                delay(STALE_MS)
+                _state.update { if (it.fix === fix) it.copy(fix = null) else it }
             }
         }
     }
@@ -177,5 +190,10 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
                 _state.update { it.copy(hectopascals = hPa.toDouble()) }
             }
         }
+    }
+
+    private companion object {
+        /** Five missed one-second fixes and the speed shown is too old to stand. */
+        const val STALE_MS = 5_000L
     }
 }
