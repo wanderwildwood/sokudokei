@@ -1,6 +1,7 @@
 package com.wanderwildwood.sokudokei
 
 import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -10,11 +11,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalCursorBlinkEnabled
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -63,15 +65,18 @@ private enum class Screen { METER, BIG, SETTINGS }
 @Composable
 private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var screen by remember { mutableStateOf(Screen.METER) }
+    var screen by rememberSaveable { mutableStateOf(Screen.METER) }
 
     // Once the request has been refused, the system may stop asking; the screen then points at
     // the app's own settings instead of a button that does nothing.
-    var denied by remember { mutableStateOf(false) }
+    var denied by rememberSaveable { mutableStateOf(false) }
+    val activity = LocalContext.current as? Activity
     val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { answers ->
         // Approximate location alone cannot give a speed, so only fine counts as a yes.
         val granted = answers[Manifest.permission.ACCESS_FINE_LOCATION] == true
-        denied = !granted
+        // A first no (or a dismissed dialog) still lets the system ask again; only once it
+        // will not does the screen point at the app's settings.
+        denied = !granted && activity?.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) == false
         viewModel.permissionAnswered(granted)
     }
 
