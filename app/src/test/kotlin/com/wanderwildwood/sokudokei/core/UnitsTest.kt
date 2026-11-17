@@ -148,3 +148,18 @@ class CoordinateRoundingTest {
         assertEquals(Dms(false, 0, 0, 0, 0), degreesMinutesSeconds(0.0))
     }
 }
+
+class WholeTest {
+
+    @Test
+    fun `a reading is rounded to the nearest whole number, not cut`() {
+        assertEquals(38, whole(37.6))
+        assertEquals(37, whole(37.4))
+        assertEquals(-3, whole(-2.6))
+    }
+
+    @Test
+    fun `nothing to show is 0`() {
+        assertEquals(0, whole(Double.NaN))
+    }
+}

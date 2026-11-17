@@ -33,6 +33,7 @@ import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.sokudokei.R
 import com.wanderwildwood.sokudokei.core.degreesMinutesSeconds
+import com.wanderwildwood.sokudokei.core.whole
 import com.wanderwildwood.sokudokei.meter.MeterState
 import com.wanderwildwood.sokudokei.meter.Trouble
 
@@ -114,7 +115,7 @@ private fun Speed(state: MeterState, onFullScreen: () -> Unit) {
     val fix = state.fix
     val reading = when {
         fix == null || !fix.hasSpeed -> "–"
-        else -> state.speedUnit.from(fix.speedMetresPerSecond).toInt().toString()
+        else -> whole(state.speedUnit.from(fix.speedMetresPerSecond)).toString()
     }
 
     Column(
@@ -137,7 +138,7 @@ private fun Altitude(state: MeterState) {
     Reading(
         label = stringResource(R.string.meter_altitude),
         value = if (fix == null || !fix.hasAltitude) "–"
-        else unit.from(fix.altitudeMetres).toInt().toString(),
+        else whole(unit.from(fix.altitudeMetres)).toString(),
         unit = stringResource(unit.labelRes),
         // The GPS gives height above the WGS84 ellipsoid, and on this phone Android
         // cannot convert it: the conversion arrived in API 34 and the Kompakt is 31.
@@ -168,7 +169,7 @@ private fun Position(state: MeterState) {
             else stringResource(
                 R.string.meter_position_accuracy,
                 fix.provider,
-                state.altitudeUnit.from(fix.accuracyMetres.toDouble()).toInt(),
+                whole(state.altitudeUnit.from(fix.accuracyMetres.toDouble())),
                 stringResource(state.altitudeUnit.labelRes),
             ),
             style = MaterialTheme.typography.labelSmall,
@@ -220,7 +221,7 @@ private fun PressureAltitude(state: MeterState) {
     Reading(
         label = stringResource(R.string.meter_pressure_altitude),
         value = if (pressureAltitude.isNaN()) "–"
-        else state.altitudeUnit.from(pressureAltitude).toInt().toString(),
+        else whole(state.altitudeUnit.from(pressureAltitude)).toString(),
         unit = stringResource(state.altitudeUnit.labelRes),
         // Worth saying plainly: this is a standard-atmosphere height, so on a low
         // pressure day it disagrees with the GPS by a hundred metres and neither of

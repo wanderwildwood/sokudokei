@@ -2,6 +2,7 @@ package com.wanderwildwood.sokudokei.core
 
 import androidx.annotation.StringRes
 import com.wanderwildwood.sokudokei.R
+import kotlin.math.roundToInt
 
 /**
  * The units a reading can be said in, and the factors that get it there.
@@ -137,3 +138,6 @@ data class UnitDefaults(val speed: Speed, val altitude: Altitude, val pressure: 
         }
     }
 }
+
+/** A reading as the whole number shown: rounded to the nearest, not cut; nothing to show is 0. */
+fun whole(value: Double): Int = if (value.isNaN()) 0 else value.roundToInt()

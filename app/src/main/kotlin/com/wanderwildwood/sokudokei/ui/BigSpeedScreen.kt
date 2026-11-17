@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.text.TextMMD
+import com.wanderwildwood.sokudokei.core.whole
 import com.wanderwildwood.sokudokei.meter.MeterState
 
 /**
@@ -31,7 +32,7 @@ fun BigSpeedScreen(state: MeterState, onClose: () -> Unit) {
     val fix = state.fix
     val reading = when {
         fix == null || !fix.hasSpeed -> "–"
-        else -> state.speedUnit.from(fix.speedMetresPerSecond).toInt().toString()
+        else -> whole(state.speedUnit.from(fix.speedMetresPerSecond)).toString()
     }
 
     Box(
