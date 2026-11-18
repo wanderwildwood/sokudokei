@@ -29,6 +29,8 @@ enum class Trouble { NONE, NO_PERMISSION, LOCATION_OFF, NO_PROVIDER, PROVIDER_OF
 
 data class MeterState(
     val fix: Fix? = null,
+    /** No new fix for a while: the last one still places you, but its speed is no longer now. */
+    val speedStale: Boolean = false,
     val hectopascals: Double = Double.NaN,
     val speedUnit: Speed = Speed.MPH,
     val altitudeUnit: Altitude = Altitude.FEET,
@@ -38,6 +40,13 @@ data class MeterState(
     val hasBarometer: Boolean = false,
     val trouble: Trouble = Trouble.NONE,
 ) {
+    /**
+     * The speed to show, or null for the dash. Only the speed goes stale: a position or a
+     * height a few seconds old is still a fair answer, a speed is not.
+     */
+    val speedMetresPerSecond: Float?
+        get() = fix?.takeIf { it.hasSpeed && !speedStale }?.speedMetresPerSecond
+
     /** Pressure altitude, which needs only the barometer. */
     val pressureAltitudeMetres: Double
         get() = if (hectopascals.isNaN()) Double.NaN
@@ -118,7 +127,7 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
         locationJob?.cancel()
         locationJob = null
         // Coming back, the speed shown is a new one, not whatever it was when the app was left.
-        _state.update { it.copy(fix = null) }
+        _state.update { it.copy(fix = null, speedStale = false) }
         pressureJob?.cancel()
         pressureJob = null
     }
@@ -144,7 +153,7 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
 
     fun chooseProvider(provider: String) {
         preferences.provider = provider
-        _state.update { it.copy(provider = provider, fix = null, trouble = trouble(provider)) }
+        _state.update { it.copy(provider = provider, fix = null, speedStale = false, trouble = trouble(provider)) }
         startLocation(provider)
     }
 
@@ -171,11 +180,13 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
                 _state.update { it.copy(trouble = now, fix = if (now == Trouble.NONE) it.fix else null) }
             }
             fixes(context, provider, changed).collectLatest { fix ->
-                _state.update { it.copy(fix = fix, trouble = Trouble.NONE) }
+                _state.update { it.copy(fix = fix, speedStale = false, trouble = Trouble.NONE) }
                 // No fix for a while: the speed on screen is no longer the speed now, so it
-                // goes back to the dash and the searching line until the next one.
+                // goes back to the dash and the searching line until the next one. The
+                // position and the heights stay, since a provider other than the GPS may
+                // send a fix only every so often and they are still the latest there is.
                 delay(STALE_MS)
-                _state.update { if (it.fix === fix) it.copy(fix = null) else it }
+                _state.update { if (it.fix === fix) it.copy(speedStale = true) else it }
             }
         }
     }

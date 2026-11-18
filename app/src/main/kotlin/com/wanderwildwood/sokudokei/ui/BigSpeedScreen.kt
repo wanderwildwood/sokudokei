@@ -29,11 +29,8 @@ import com.wanderwildwood.sokudokei.meter.MeterState
  */
 @Composable
 fun BigSpeedScreen(state: MeterState, onClose: () -> Unit) {
-    val fix = state.fix
-    val reading = when {
-        fix == null || !fix.hasSpeed -> "–"
-        else -> whole(state.speedUnit.from(fix.speedMetresPerSecond)).toString()
-    }
+    val speed = state.speedMetresPerSecond
+    val reading = if (speed == null) "–" else whole(state.speedUnit.from(speed)).toString()
 
     Box(
         modifier = Modifier

@@ -80,7 +80,7 @@ fun MeterScreen(
                 if (state.trouble != Trouble.NONE) {
                     Trouble(state.trouble, denied, onAllow)
                 }
-                if (state.trouble == Trouble.NONE && state.fix == null) {
+                if (state.trouble == Trouble.NONE && (state.fix == null || state.speedStale)) {
                     TextMMD(text = stringResource(R.string.meter_searching), style = MaterialTheme.typography.labelSmall)
                 }
                 TextMMD(
@@ -115,10 +115,8 @@ fun MeterScreen(
 @Composable
 private fun Speed(state: MeterState, onFullScreen: () -> Unit) {
     val fix = state.fix
-    val reading = when {
-        fix == null || !fix.hasSpeed -> "–"
-        else -> whole(state.speedUnit.from(fix.speedMetresPerSecond)).toString()
-    }
+    val speed = state.speedMetresPerSecond
+    val reading = if (speed == null) "–" else whole(state.speedUnit.from(speed)).toString()
 
     Column(
         modifier = Modifier
