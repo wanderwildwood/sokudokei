@@ -37,6 +37,15 @@ class Preferences(context: Context) {
         set(value) = write(PROVIDER, value)
 
     /**
+     * Not a setting: whether precise location was refused after the system had explained
+     * itself, so a fresh launch still knows the system will not ask again. Cleared once
+     * location is granted.
+     */
+    var locationRefused: Boolean
+        get() = store.getBoolean(LOCATION_REFUSED, false)
+        set(value) = store.edit().putBoolean(LOCATION_REFUSED, value).apply()
+
+    /**
      * A stored name that no longer matches anything — an enum value renamed between
      * versions — falls back to the default rather than crashing on `valueOf`.
      */
@@ -53,5 +62,6 @@ class Preferences(context: Context) {
         const val ALTITUDE = "altitude"
         const val PRESSURE = "pressure"
         const val PROVIDER = "provider"
+        const val LOCATION_REFUSED = "location_refused"
     }
 }

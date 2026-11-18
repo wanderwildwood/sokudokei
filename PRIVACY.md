@@ -36,7 +36,9 @@ history, no track, no trip log, and no file of any kind holding a position.
 
 The only things written to storage at all are which units you chose and which location
 provider to read from — four short strings in `SharedPreferences`, all in
-`meter/Preferences.kt` — and whether dark mode is on, kept in `ui/DarkMode.kt`.
+`meter/Preferences.kt` — one yes/no beside them saying whether you have refused location
+after Android explained why it is needed (so the app can point you to its settings; it is
+cleared once location is allowed), and whether dark mode is on, kept in `ui/DarkMode.kt`.
 
 If Home (`com.wanderwildwood.iori`) is installed, the app asks it whether its dark switch is
 on, so the two follow one switch. That is all it reads from Home, and it sends Home nothing.

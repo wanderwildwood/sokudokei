@@ -28,7 +28,8 @@ dark setting.
 ## What it does not do
 
 There is no map, no history, no trip log and no account. It holds nothing between one
-run and the next except its settings: the units, the location provider and dark mode.
+run and the next except its settings (the units, the location provider and dark mode) and
+whether location was refused, so it can point you to the app's settings.
 
 Your position never leaves the phone. The app requests no network permission at all, so
 it could not send a fix anywhere if it were asked to.

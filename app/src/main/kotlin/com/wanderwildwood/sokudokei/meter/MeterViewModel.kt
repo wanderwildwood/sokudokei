@@ -132,6 +132,13 @@ class MeterViewModel(application: Application) : AndroidViewModel(application) {
         pressureJob = null
     }
 
+    /** Kept across launches; see [Preferences.locationRefused]. */
+    var locationRefused: Boolean
+        get() = preferences.locationRefused
+        set(value) {
+            if (preferences.locationRefused != value) preferences.locationRefused = value
+        }
+
     fun permissionAnswered(granted: Boolean) {
         if (granted) refresh() else _state.update { it.copy(trouble = Trouble.NO_PERMISSION) }
     }

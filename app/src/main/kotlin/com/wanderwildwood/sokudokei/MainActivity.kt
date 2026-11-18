@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mudita.mmd.ThemeMMD
+import com.wanderwildwood.sokudokei.core.LocationRefusal
 import com.wanderwildwood.sokudokei.device.hasLocationPermission
 import com.wanderwildwood.sokudokei.meter.MeterViewModel
 import com.wanderwildwood.sokudokei.ui.BigSpeedScreen
@@ -82,10 +83,12 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
         // Approximate location alone cannot give a speed, so only fine counts as a yes.
         val granted = answers[Manifest.permission.ACCESS_FINE_LOCATION] == true
         // A dialog dismissed without an answer records no refusal, so "no rationale" after it
-        // is the same answer as a blocked permission. Blocked is only believed when the
-        // rationale was there before this request and has gone, or when an earlier request
-        // in this run also came back without a yes.
-        denied = !granted && !rationale() && (rationaleBefore || refusedBefore)
+        // is the same answer as a blocked permission; see LocationRefusal for when blocked is
+        // believed. A no after the rationale is stored, so after a fresh launch the first tap
+        // already shows the blocked wording.
+        val refusedStored = viewModel.locationRefused
+        denied = LocationRefusal.blocked(granted, rationale(), rationaleBefore, refusedBefore, refusedStored)
+        viewModel.locationRefused = LocationRefusal.stored(granted, rationaleBefore, refusedStored)
         refusedBefore = !granted
         viewModel.permissionAnswered(granted)
     }
@@ -106,6 +109,7 @@ private fun Speedometer(viewModel: MeterViewModel = viewModel()) {
                     if (activity != null && hasLocationPermission(activity)) {
                         denied = false
                         refusedBefore = false
+                        viewModel.locationRefused = false
                     }
                     viewModel.refresh()
                 }
