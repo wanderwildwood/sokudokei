@@ -6,6 +6,11 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Test
 
+/**
+ * Checks what the screen reads from a stale fix. The step that marks a fix stale after five
+ * seconds without a newer one (MeterViewModel's location job) runs on a coroutine delay and
+ * is checked by the phone test, not here.
+ */
 class MeterStateTest {
 
     private val fix = Fix(
