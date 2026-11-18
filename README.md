@@ -22,7 +22,7 @@ sixteen grays, a slow redraw, and is read outdoors as often as indoors.
 - **Air pressure**, **pressure at sea level**, and **pressure altitude**, on any phone
   with a barometer. On a phone without one, those rows are simply not there.
 
-Needs Android 12 or newer. Dark mode has its own switch in Settings and follows the phone's
+Needs Android 12 or newer. Dark mode is a row in Settings, On or Off, and follows the phone's
 dark setting.
 
 ## What it does not do
