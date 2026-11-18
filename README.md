@@ -33,6 +33,9 @@ run and the next except its settings: the units, the location provider and dark 
 Your position never leaves the phone. The app requests no network permission at all, so
 it could not send a fix anywhere if it were asked to.
 
+If Home (`com.wanderwildwood.iori`) is installed, the app asks it whether its dark switch is
+on, so the two follow one switch. That is all it reads from Home, and it sends Home nothing.
+
 The GPS and the barometer run only while the app is the screen you are looking at. There
 is no background permission and no service.
 
