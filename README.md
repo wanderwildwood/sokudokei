@@ -10,7 +10,7 @@ sixteen grays, a slow redraw, and is read outdoors as often as indoors.
 
 | | | | |
 |---|---|---|---|
-| ![Readings, air pressure among them](screenshots/01-meter.png) | ![The driving notice](screenshots/02-notice.png) | ![Settings](screenshots/03-settings.png) | ![Pressure altitude, on the second page](screenshots/04-pressure.png) |
+| ![Speed, height, position and air pressure](screenshots/1-meter.png) | ![Speed on its own, large](screenshots/2-large.png) | ![Settings](screenshots/3-settings.png) | ![In dark mode](screenshots/4-dark.png) |
 
 ## What it shows
 
